@@ -1,4 +1,4 @@
-package controlador;
+package Controlador;
 
 import org.hibernate.HibernateException;
 import org.hibernate.Session;

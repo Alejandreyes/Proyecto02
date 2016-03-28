@@ -1,4 +1,4 @@
-package controlador;
+package Controlador;
 
 import java.util.List;
 import org.hibernate.HibernateException;
