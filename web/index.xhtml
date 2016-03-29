@@ -7,11 +7,41 @@
       xmlns:p="http://primefaces.org/ui">
     <h:head>
         <title>Facelet Title</title>
+        <style type="text/css" media="screen">
+            @import 'css/estilos.css';
+        </style>
     </h:head>
     <h:body>
-        Hello from Facelets
-        <br />
-        <h:link outcome="welcomePrimefaces" value="Primefaces welcome page" />
+
+        <div id="contenedor">
+            <div id="cabecera">
+            </div>
+
+            <div id="menu">
+            </div>
+
+            <div id="contenido">
+                
+
+                <div id="secundario">
+                </div>
+            <div id="principal">
+                <form action="./CotroladorRegistro" method="Post">
+                    <br/>Nombre:<input  type="text" name="nombre"></input>
+            
+                    <br/>Contraseña:<input  type="password"  name="contrasenia"></input>
+                    <br/><br/><input type="submit" value="Enviar" name="enviar"></input>
+                    <br/><br/><input type="submit" value="Registrar" name="registrar"></input>
+            
+        </form>
+                </div>
+            </div>
+
+            <div id="pie"> 
+            </div>
+        </div>
+
+
     </h:body>
 </html>
 

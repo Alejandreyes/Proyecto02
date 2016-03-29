@@ -1,0 +1,49 @@
+body {
+    text-align: center;
+}
+
+#contenedor {
+    background: gainsboro;
+    min-width: 500px;
+    max-width: 1000px;
+    margin: 0 auto;
+    max-height: 1300px;
+    min-height: 700px
+}
+#cabecera {
+    height: 80px;
+    background: orangered;
+    
+}
+#menu {
+    height: 30px;
+    background: brown;
+    //float: left;
+    //width: 15%;
+}
+#contenido {
+    float: left;
+    width: 100%;
+}
+#contenido #principal {
+    max-height: 1100px;
+    min-height: 600px;
+    float: left;
+    background: peru;
+    width: 80%;
+}
+#contenido #secundario {
+    //height: 80px;    
+    max-height: 1100px;
+    min-height: 600px;
+    background: yellow;
+    float: left;
+    width: 20%;
+}
+
+#pie {
+    height: 80px;
+    background: firebrick;
+    height: 20px;
+    clear: both;
+}

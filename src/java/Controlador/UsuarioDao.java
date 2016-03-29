@@ -4,63 +4,117 @@
  * and open the template in the editor.
  */
 package Controlador;
-import Dao.Usuario;
-import java.util.List;
 
+import DAO.Usuario;
+import java.util.List;
+import org.hibernate.HibernateException;
+import org.hibernate.Session;
+import org.hibernate.Transaction;
 /**
  *
  * @author stein
  */
-public class UsuarioDao extends AbstractDao {
-    public UsuarioDao() {
-        super();
-    }
+public class UsuarioDao {
+    private Session sesion;
+    private Transaction tx;
+    private void iniciaOperacion() throws HibernateException
+{
+    sesion = HibernateUtil.getSessionFactory().openSession();
+    tx = sesion.beginTransaction();
+}
+    private void manejaExcepcion(HibernateException he) throws HibernateException
+{
+    tx.rollback();
+    throw new HibernateException("Ocurrió un error en la capa de acceso a datos", he);
+}
+    public long guardaUsuario(Usuario contacto)
+{ 
+    long id = 0;  
 
-    /**
-     * Insert a new Usuario into the database.
-     *
-     * @param usuario
-     */
-    public void save(Usuario usuario) throws DataAccessLayerException {
-        super.save(usuario);
-    }
-
-    /**
-     * Updates a new Usuario into the database.
-     *
-     * @param usuario
-     */
-    public void update(Usuario usuario) throws DataAccessLayerException {
-        super.update(usuario);
-    }
-
-    /**
-     * Delete a detached Usuario from the database.
-     *
-     * @param usuario
-     */
-    public void delete(Usuario usuario) throws DataAccessLayerException {
-        super.delete(usuario);
-    }
-
-    /**
-     * Find an Event by its primary key.
-     *
-     * @param id
-     * @return
-     */
-    public Usuario find(Long id) throws DataAccessLayerException {
-        return (Usuario) super.find(Usuario.class, id);
-    }
-
-    /**
-     * Lista todos los usuarios de la base de datos
-     *
-     * @return
-     */
-    public List findAll() throws DataAccessLayerException {
-        return super.findAll(Usuario.class);
-    }
+    try 
+    { 
+        iniciaOperacion(); 
+        id = (Long)sesion.save(contacto); 
+        tx.commit(); 
+    }catch(HibernateException he) 
+    { 
+        manejaExcepcion(he);
+        throw he; 
+    }finally 
+    { 
+        sesion.close(); 
+    }  
+    return id; 
+}
     
+public void actualizaUsuario(Usuario contacto) throws HibernateException 
+{ 
+    try 
+    { 
+        iniciaOperacion(); 
+        sesion.update(contacto); 
+        tx.commit(); 
+    }catch (HibernateException he) 
+    { 
+        manejaExcepcion(he); 
+        throw he; 
+    }finally 
+    { 
+        sesion.close(); 
+    } 
+}
+    public void eliminaUsuario(Usuario contacto) throws HibernateException 
+{ 
+    try 
+    { 
+        iniciaOperacion(); 
+        sesion.delete(contacto); 
+        tx.commit(); 
+    } catch (HibernateException he) 
+    { 
+        manejaExcepcion(he); 
+        throw he; 
+    }finally 
+    { 
+        sesion.close(); 
+    } 
+}
+ public Usuario obtenUsuario(long idUsuario) throws HibernateException
+{ 
+    Usuario contacto = null;  
+
+    try 
+    { 
+        iniciaOperacion(); 
+        contacto = (Usuario) sesion.get(Usuario.class, idUsuario); 
+    } finally 
+    { 
+        sesion.close(); 
+    }  
+    return contacto; 
+}   
+ public List<Usuario> obtenListaUsuarios() throws HibernateException 
+{ 
+    List<Usuario> listaUsuarios = null;  
     
+    try 
+    { 
+        iniciaOperacion(); 
+        listaUsuarios = sesion.createQuery("from Usuario").list(); 
+    }finally 
+    { 
+        sesion.close(); 
+    }  
+
+    return listaUsuarios; 
+}
+ public Usuario getUsuario(String nombre, String contrasenia){
+     List<Usuario> listaUsuarios = obtenListaUsuarios();
+     for (Usuario user : listaUsuarios){
+         if(user.getUsuario() == nombre && user.getContrasenia() == contrasenia)
+             return user;
+     }
+     return null;
+ 
+ }
 }
